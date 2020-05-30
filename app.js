@@ -1,4 +1,4 @@
-
+'use strict';
 require("dotenv").config();
 
 const bodyParser = require("body-parser");
@@ -62,5 +62,8 @@ app.use(
 
 const index = require("./routes/index");
 app.use("/", index);
+
+const bling = require("./routes/bling");
+app.use("/api", bling);
 
 module.exports = app;
