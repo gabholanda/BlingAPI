@@ -1,9 +1,10 @@
+'use strict';
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
 /* GET home page */
 router.get('/', (req, res, next) => {
-  res.render('index', {title: "the Jungle"});
+    res.render('index', { title: "the Jungle" });
 });
 
 module.exports = router;
