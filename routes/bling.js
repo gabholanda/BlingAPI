@@ -21,7 +21,7 @@ router.get('/pipedrive/deals', (req, res) => {
     axios.get(`${url}/api/v1/deals:(id,weighted_value,title)?status=won&api_token=${process.env.PIPEDRIVE_KEY}`)
         .then(response => {
             const { id, weighted_value, title } = response.data.data;
-            axios.post(`https://bling.com.br/Api/v2/pedido/json/&apikey=${process.env.BLING_API}?xml=${getXMLTemplate({ id, weighted_value, title })}`)
+            axios.post(`${process.env.BLING_API}/pedido/json/&apikey=${process.env.BLING_KEY}?xml=${getXMLTemplate({ id, weighted_value, title })}`)
                 .then(blingRes => {
                     console.log(blingRes);
                     const pedido = new Pedido()
