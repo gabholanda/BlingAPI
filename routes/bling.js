@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+const getXMLTemplate = require('../services/xml.service');
+const Pedido = require('../models/Pedido');
 
 /* GET all pedidos */
-router.get('/getPedidos', (req, res, next) => {
+router.get('/getPedidos', (req, res) => {
     axios.get(`${process.env.BLING_API}/pedidos/json/?apikey=${process.env.BLING_KEY}`)
         .then(pedidos => {
             res.json(pedidos.data.retorno);
@@ -13,15 +15,24 @@ router.get('/getPedidos', (req, res, next) => {
         })
 });
 
-/* GET all deals from Pipedrive */
-router.get('/pipedrive/deals', (req, res, next) => {
+/* GET all 'won' deals from Pipedrive and insert as pedido in Bling, then save on MongoDB Atlas. */
+router.get('/pipedrive/deals', (req, res) => {
     const { url } = req.body;
-    axios.get(`${url}/api/v1/deals:(id,status)?api_token=${process.env.PIPEDRIVE_KEY}`)
+    axios.get(`${url}/api/v1/deals:(id,weighted_value,title)?status=won&api_token=${process.env.PIPEDRIVE_KEY}`)
         .then(response => {
-            res.json(response.data.data);
+            const { id, weighted_value, title } = response.data.data;
+            axios.post(`https://bling.com.br/Api/v2/pedido/json/&apikey=${process.env.BLING_API}?xml=${getXMLTemplate({ id, weighted_value, title })}`)
+                .then(blingRes => {
+                    console.log(blingRes);
+                    const pedido = new Pedido()
+                })
+                .catch(err => {
+                    console.log('Bling:', err);
+                })
+
         })
         .catch(err => {
-            console.log(err);
+            console.log('Pipedrive:', err);
         })
 });
 

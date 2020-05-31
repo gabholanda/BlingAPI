@@ -1,0 +1,2 @@
+module.exports = (params) =>
+`<?xml version="1.0" encoding="UTF-8"?><pedido><cliente><nome>${params.title}</nome></cliente><itens><item><descricao>${params.title}</descricao><qtde>1</qtde><vlr_unit>${params.weighted_value}</vlr_unit></item></itens></pedido>`;
