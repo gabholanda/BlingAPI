@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const getXMLTemplate = require('../services/xml.service');
-const Pedido = require('../models/Pedido');
+const SaveService = require('../services/save.service');
 
 /* GET all pedidos */
 router.get('/getPedidos', (req, res) => {
@@ -20,16 +19,7 @@ router.get('/pipedrive/deals', (req, res) => {
     const { url } = req.body;
     axios.get(`${url}/api/v1/deals:(id,weighted_value,title)?status=won&api_token=${process.env.PIPEDRIVE_KEY}`)
         .then(response => {
-            const { id, weighted_value, title } = response.data.data;
-            axios.post(`${process.env.BLING_API}/pedido/json/&apikey=${process.env.BLING_KEY}?xml=${getXMLTemplate({ id, weighted_value, title })}`)
-                .then(blingRes => {
-                    console.log(blingRes);
-                    const pedido = new Pedido()
-                })
-                .catch(err => {
-                    console.log('Bling:', err);
-                })
-
+            SaveService(response.data.data);
         })
         .catch(err => {
             console.log('Pipedrive:', err);
