@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const PedidoSchema = new Schema({
-    tituloPipedrive: { type: String, required: true },
+    tituloPipedrive: { type: String, required: true, unique: true },
     data: { type: Date, default: new Date() },
     valorTotal: {
         type: Number,
