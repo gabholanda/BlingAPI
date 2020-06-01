@@ -7,7 +7,7 @@ const ClienteSchema = new Schema({
     valorTotal: {
         type: Number,
         get: v => v.toFixed(2),
-        set: v => v.round(2)
+        set: v => v.toFixed(2)
     },
 }, {
     timestamps: true
