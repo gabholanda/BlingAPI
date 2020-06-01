@@ -19,7 +19,7 @@ router.get('/pipedrive/deals', (req, res) => {
     const { url } = req.body;
     axios.get(`${url}/api/v1/deals:(id,weighted_value,title)?status=won&api_token=${process.env.PIPEDRIVE_KEY}`)
         .then(response => {
-            SaveService(response.data.data);
+            SaveService(response.data.data, res);
         })
         .catch(err => {
             console.log('Pipedrive:', err);
