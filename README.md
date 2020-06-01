@@ -4,7 +4,8 @@
 
 To run it properly just type in:
 
-npm i install
-After that create a file named '.env' and follow the '.env.example' file instructions.
+<p>npm i install</p>
 
-then type 'npm start' to run the project. You can test it through Postman or similar
+<p>After that create a file named '.env' and follow the '.env.example' file instructions</p>
+
+<p>then type 'npm start' to run the project. You can test it through Postman or similar</p>
